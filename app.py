@@ -31,7 +31,7 @@ Suggested Email to Candidate (only if score < 60): ...
 """
 
     response = openai.ChatCompletion.create(
-        model="gpt-4",
+        model="gpt-3.5-turbo",
         messages=[{"role": "user", "content": prompt}],
         temperature=0.3,
         max_tokens=800
@@ -56,3 +56,4 @@ def evaluate():
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
+
