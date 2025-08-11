@@ -1,17 +1,8 @@
 import openai
-import sys
-import os
 
-# ← API KEY de OpenAI (más seguro usar variable de entorno, pero puedes pegarla aquí si prefieres)
-openai.api_key = os.getenv("OPENAI_API_KEY")
-# También puedes usar esta línea si prefieres no usar entorno:
-# openai.api_key = "sk-...tu_clave..."
+def evaluate(resume, job_description, api_key):
+    openai.api_key = api_key
 
-# Lee los argumentos pasados desde UiPath
-resume = sys.argv[1]
-job_description = sys.argv[2]
-
-def evaluate_candidate(resume, job_description):
     prompt = f"""
     You're a recruiter assistant. Evaluate the following resume against the job description.
 
@@ -29,16 +20,10 @@ def evaluate_candidate(resume, job_description):
     """
 
     response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",  # Usa GPT-4 si tienes acceso
+        model="gpt-3.5-turbo",
         messages=[{"role": "user", "content": prompt}],
         temperature=0.5,
         max_tokens=600
     )
 
     return response.choices[0].message["content"]
-
-try:
-    result = evaluate_candidate(resume, job_description)
-    print(result)
-except Exception as e:
-    print(f"❌ Error: {e}")
